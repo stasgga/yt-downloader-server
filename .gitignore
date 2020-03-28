@@ -136,4 +136,5 @@ tags
 # End of https://www.gitignore.io/api/vim,node
 
 # data shouldn't be added
-./datadir
+./datadir/*
+./config.js

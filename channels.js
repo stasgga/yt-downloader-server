@@ -1,6 +1,7 @@
 const ytpl = require('ytpl');
 const fs = require('fs');
 const ytdl = require('ytdl-core');
+const config = require('./config');
 
 function wtf(name, str) {
   fs.writeFile(name, str, function(err) {
@@ -79,18 +80,13 @@ function dlPlaylist(playlistName, id) {
       },
       () => {
         console.log("File is not present. Saving and NOOP")
-        mkdir(getDirFilename(name))
+        mkdir(getDirFilename(playlistName))
         wtf(indexFilename, JSON.stringify(items))
       })
   });
 }
 
-[
-  {
-    "playlistName": "Jreg",
-    "playlistId": "UUGSGPehp0RWfca-kENgBJ9Q"
-  }
-].forEach(({playlistName, playlistId}) => {
+config.playlists.forEach(({playlistName, playlistId}) => {
   dlPlaylist(playlistName, playlistId)
 })
 
