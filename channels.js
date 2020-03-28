@@ -37,6 +37,10 @@ function getDirFilename(playlistName) {
   return "datadir/" + playlistName
 }
 
+function atoi(str) {
+  return Buffer.from(str).toString('base64')
+}
+
 function getFileFilename(playlistName, videoTitle) {
   return getDirFilename(playlistName) + "/" + videoTitle
 }
