@@ -8,6 +8,6 @@ Firefox doesn't allow all formats. Chrome does.
 
 ### Video server (chrome supports all videos)
 #### Dependencies
-`node install`
+`yarn install`
 #### Run
 `node index.js`
