@@ -18,7 +18,16 @@ function readDir(subdir) {
 function isDir(dirPath) {
   const absPath = getPath(dirPath)
   //console.log("isDir", getPath(absPath), fs.existsSync(absPath), fs.existsSync(absPath) && fs.lstatSync(absPath).isFile())
-  return fs.existsSync(absPath) && fs.lstatSync(absPath).isDirectory()
+  const exists = fs.existsSync(absPath)
+  if (!exists) {
+    return exists
+  }
+  const stats = fs.lstatSync(absPath)
+  if (stats.isSymbolicLink()) {
+    const symStats = fs.lstatSync(fs.readlinkSync(absPath))
+    return symStats.isDirectory()
+  }
+  return stats.isDirectory()
 }
 
 function isFile(dirPath) {
