@@ -42,7 +42,7 @@ function atoi(str) {
 }
 
 function getFileFilename(playlistName, videoTitle) {
-  return getDirFilename(playlistName) + "/" + videoTitle
+  return getDirFilename(playlistName) + "/" + videoTitle.replace("'", "_").replace('"', "_")
 }
 
 function removeKnownItems(playlistItems, knownItems) {
