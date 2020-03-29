@@ -7,6 +7,14 @@ const path = require('path');
 //set static path to serve static files
 app.use(express.static("datadir"));
 app.use("/public", express.static("public"));
+const csp = require('express-csp-header');
+const { expressCspHeader, INLINE, NONE, SELF } = csp;
+app.use(expressCspHeader({
+    policies: {
+        'default-src': [csp.SELF],
+        'img-src': [csp.SELF],
+    }
+}));
 
 function render(content) {
   return `
