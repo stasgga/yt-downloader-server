@@ -6,20 +6,34 @@ const path = require('path');
 
 //set static path to serve static files
 app.use(express.static("datadir"));
+app.use("/public", express.static("public"));
+
+function render(content) {
+  return `
+  <html>
+    <head>
+      <script src="/public/scripts.js"></script>
+    </head>
+    <body>
+    ` + content + `
+    </body>
+  </html>
+  `
+}
 
 function mkLink(location) {
-  return `window.location=\"/?loc=` + Buffer.from(location).toString('base64') + `\"`
+  return `navigate(\"` + Buffer.from(location).toString('base64') + `\")`
 }
 
 function mkButton(location, title) {
-  return "<button onClick='"+mkLink(location)+"'>" + title + "</button>"
+  return "<button onClick="+mkLink(location)+">" + title + "</button>"
 }
 
 app.get('/', function (req, res) {
   const loc = Buffer.from(req.query.loc || "", 'base64').toString()
   if (dirFns.isDir(loc)) {
-    res.send("dirs:<br>" + dirFns.readDir(loc)
-      .map((text) => mkButton(path.join(loc, text), text)).join("<br>"));
+    res.send(render("dirs:<br>" + dirFns.readDir(loc)
+      .map((text) => mkButton(path.join(loc, text), text)).join("<br>")));
     return
   }
   if (dirFns.isFile(loc)) {
